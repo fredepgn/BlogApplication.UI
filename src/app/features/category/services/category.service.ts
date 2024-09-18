@@ -29,11 +29,19 @@ export class CategoryService {
     return this.http.delete<Category>(`${environment.apiBaseUrl}/api/Categories/${id}?addAuth=true`);
   }
 
-  getAllCategories(query?: string): Observable<Category[]> {
+  getAllCategories(query?: string, sortBy?: string, sortDirection?: string): Observable<Category[]> {
     let params = new HttpParams();
 
     if (query) {
       params = params.set('query', query)
+    }
+
+    if (sortBy) {
+      params = params.set('sortBy', sortBy)
+    }
+
+    if (sortDirection) {
+      params = params.set('sortDirection', sortDirection)
     }
 
 
