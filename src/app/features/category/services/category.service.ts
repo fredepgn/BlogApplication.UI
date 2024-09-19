@@ -29,7 +29,9 @@ export class CategoryService {
     return this.http.delete<Category>(`${environment.apiBaseUrl}/api/Categories/${id}?addAuth=true`);
   }
 
-  getAllCategories(query?: string, sortBy?: string, sortDirection?: string): Observable<Category[]> {
+  getAllCategories(
+    query?: string, sortBy?: string, sortDirection?: string,
+    pageNumber?: number, pageSize?: number): Observable<Category[]> {
     let params = new HttpParams();
 
     if (query) {
@@ -44,6 +46,13 @@ export class CategoryService {
       params = params.set('sortDirection', sortDirection)
     }
 
+    if (pageNumber) {
+      params = params.set('pageNumber', pageNumber)
+    }
+
+    if (pageSize) {
+      params = params.set('pageSize', pageSize)
+    }
 
     return this.http.get<Category[]>(`${environment.apiBaseUrl}/api/Categories`, {
       params: params
@@ -52,6 +61,18 @@ export class CategoryService {
 
   getCategoryById(id: string): Observable<Category> {
     return this.http.get<Category>(`${environment.apiBaseUrl}/api/Categories/${id}`);
+  }
+
+  getCategoryCount(query?: string): Observable<number> {
+    let params = new HttpParams();
+
+    if (query) {
+      params = params.set('query', query)
+    }
+
+    return this.http.get<number>(`${environment.apiBaseUrl}/api/Categories/count`, {
+      params: params
+    });
   }
 
 
